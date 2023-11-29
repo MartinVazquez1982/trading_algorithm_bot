@@ -23,29 +23,30 @@ class ris_bollinger(bt.Strategy):
         
         rsi_value = self.rsi[0]
         
-        if not self.position and self.dataclose <= self.bollinger.lines.bot and rsi_value < 25:
-            cash_disponible = self.broker.get_cash()
-            cant = int(cash_disponible/(self.dataclose[0]+0.001))
+        if not self.position and self.dataclose <= self.bollinger.lines.bot and rsi_value < 30:
+            cash_disponible = self.broker.get_cash()*0.95
+            cash_disponible = cash_disponible-cash_disponible*0.001
+            cant = int(cash_disponible/self.dataclose[0])
             self.log(f"BUY CREATE, {self.dataclose[0]} - Cantidad: {cant}")
-            self.buy(size=can)
+            self.buy(size=cant)
             
         if self.position:
-            if self.dataclose >= self.bollinger.lines.top and rsi_value > 75:
+            if self.dataclose >= self.bollinger.lines.top and rsi_value > 70:
                 self.log(f"SELL CREATE, {self.dataclose[0]}")
                 self.sell(size=self.position.size)
-                
+           
     def notify_order(self, order):
         
         if order.status in [order.Accepted]:
             if order.isbuy():
-                self.log("BUY ACCEPTED")
+                self.log(f"BUY ACCEPTED")
             elif order.issell():
                 self.log("SELL ACCEPTED")
             return
         
         if order.status in [order.Completed]:
             if order.isbuy():
-                self.log(f"BUY EXECUTED, {order.executed.price}")
+                self.log(f"BUY EXECUTED, {order.executed.price}, comision: {order.executed.comm}, cantidad: {order.executed.size}")
             elif order.issell():
                 self.log(f"SELL EXECUTED, {order.executed.price}")
                 
@@ -53,7 +54,7 @@ class ris_bollinger(bt.Strategy):
             self.log(f"ORDER CANCELED")
             
         elif order.status in [order.Margin]:
-            self.log(f"ORDER MARGIN")
+            self.log(f"ORDER MARGIN - Razón: {self.dataclose[0]}")
         
         elif order.status in [order.Rejected]:
             self.log(f"ORDER REJECTED")

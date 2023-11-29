@@ -3,7 +3,7 @@ import backtrader as bt
 class ris_bollinger(bt.Strategy):
     
     params=(
-        ("period", 30),
+        ("period", 20),
         ("devfactor", 2),
         ("rsi_period", 13)
     )

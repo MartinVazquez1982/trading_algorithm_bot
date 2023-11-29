@@ -31,7 +31,8 @@ if __name__ == '__main__':
     datapath_orcl = os.path.join(r".\\Data\\orcl-1995-2014.txt")
     datapath_nvda = os.path.join(r".\\Data\\nvda-1999-2014.txt")
     datapath_yhoo = os.path.join(r".\\Data\\yhoo-1996-2015.txt")
-    
+    datapath_ko = os.path.join(r".\\Data\\KO.csv")
+    datapath_ypf = os.path.join(r".\\Data\\YPF.csv")
      # Create a Data Feed
     data = bt.feeds.YahooFinanceCSVData(
     dataname=datapath_orcl,
@@ -43,4 +44,4 @@ if __name__ == '__main__':
     cerebro1.run()
     cerebro2.run()
     print('Final Portfolio Value - Strategy 1: %.2f Strategy 2: %.2f' % (cerebro1.broker.getvalue(),cerebro2.broker.getvalue()))
-    #cerebro.plot()
+    #cerebro1.plot()

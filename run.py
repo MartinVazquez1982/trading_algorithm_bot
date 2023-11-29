@@ -9,9 +9,18 @@ from Strategies.Simple_Strategies import MACD as macd
 from Strategies.Simple_Strategies import RSI as rsi
 from Strategies.Simple_Strategies import bollinger as bl
 
+from Strategies.Combined_Strategies import macd_ema as me
 from Strategies.Combined_Strategies import rsi_bollinger as rb
 
 import backtrader as bt
+
+def ret_cerebro(data, strategy):
+    cerebro = bt.Cerebro()
+    cerebro.adddata(data)
+    cerebro.addstrategy(strategy)
+    cerebro.broker.setcommission(commission=0.001)
+    cerebro.broker.setcash(100000.0)
+    return cerebro
 
 
 if __name__ == '__main__':
@@ -28,18 +37,10 @@ if __name__ == '__main__':
     dataname=datapath_orcl,
     reverse=False)
     # Add the Data Feed to Cerebro
-    cerebro.adddata(data)
-    cerebro.addstrategy(rb.ris_bollinger)
-    cerebro.broker.setcommission(commission=0.001)
-    cerebro.broker.setcash(100000.0)
-    print(f"Starting Portfolio Value: {cerebro.broker.getvalue()}")
-    cerebro.run()
-    print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
-    '''
-    mostrar porcentaje de ganancia o perdida
-    if (100000.0 > cerebro.broker.getvalue()):
-        print(f"Loss: {cerebro.broker.getvalue()/100000.0}")
-    else: 
-        print(f"profit: {100000.0/cerebro.broker.getvalue()}")
-    '''
-    cerebro.plot()
+    cerebro1 = ret_cerebro(data, me.macd_ema)
+    cerebro2 = ret_cerebro(data, rb.ris_bollinger)
+    print(f"Starting Portfolio Value - Strategy 1: {cerebro1.broker.getvalue()} Strategy 2: {cerebro2.broker.getvalue()}")
+    cerebro1.run()
+    cerebro2.run()
+    print('Final Portfolio Value - Strategy 1: %.2f Strategy 2: %.2f' % (cerebro1.broker.getvalue(),cerebro2.broker.getvalue()))
+    #cerebro.plot()

@@ -35,7 +35,10 @@ if __name__ == '__main__':
         else:
             raise ValueError("Datafeed inexistente")
     else:
-        raise ValueError("Se debe indicar el datafeed a utilizar | ORCL - NVDA - YHOO - KO - BMA")
+        datapath = os.path.join(r".\\Data\\orcl-1995-2014.txt")
+        print("\nUtiliza el datafeed ORCL")
+        print("Si desea ultilizar otro, ingreselo por argumento: ")
+        print("ORCL - NVDA - YHOO - KO - BMA")
     
     # Create a Data Feed
     data = bt.feeds.YahooFinanceCSVData(

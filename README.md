@@ -33,6 +33,37 @@ Strategies
     |-- strategy_final.py
 ```
 
+La estrategia que utiliza por defecto es *strategy_final.py* la cual emplea varias tecnicas para determinar si ocurre una señal de compra o una señal de venta
+
 ## Instalación del Bot
 
+Para poder correr el Bot se requiere tener instalado una version de python superior o igual a la 3.2. Y luego instalar backtrader mediante el siguiente comando:
+
+```bash
+pip install backtrader[plotting]
+```
+Con esto ya se encuentra listo para ejecutar.
+
 ## Ejecucion del Bot
+
+Para ejecutar el bot se tiene que correr el archivo:
+
+```
+Trading_Algorithm_bot
+|-- run_bot.py
+```
+
+Se recomienda ejecutar por consola dado que espera el datafeed a utilizar por argumento, sino por defecto utiliza oracle.
+
+Datafeeds:
+- ORCL => Oracle
+- NVDA => NVIDIA
+- YHOO => Yahoo
+- KO => Coca Cola
+- BMA => Banco Macro
+
+comando para ejecutar por consola:
+
+```bash
+python run_bot.py [datafeed]
+```
